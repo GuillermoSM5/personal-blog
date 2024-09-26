@@ -6,6 +6,7 @@ import * as bcrypt from 'bcrypt';
 import { CreateUserDto } from './dto/create-auth.dto';
 import { User } from './entities/user.entity';
 import { LoginUserDto } from './dto/login-user.dto';
+import { ActionResponse } from 'src/Model/responses';
 
 @Injectable()
 export class AuthService {
@@ -16,11 +17,14 @@ export class AuthService {
 
   async create(createUserDto: CreateUserDto) {
     const { phrase, ...userData } = createUserDto;
-    const user = await this.userModel.create({
+    await this.userModel.create({
       ...userData,
       phrase: bcrypt.hashSync(phrase, 15),
     });
-    return user;
+    return new ActionResponse({
+      content: true,
+      message: `¡Hola ${userData.name}! ¡Estamos emocionados de que te hayas unido a nuestra comunidad!`,
+    });
   }
 
   async loginUser(loginUserDto: LoginUserDto) {
@@ -39,7 +43,10 @@ export class AuthService {
         '¡Ups! No pudimos encontrarte con esas credenciales. ¿Te equivocaste al escribirlas?',
       );
     }
-    return user;
+    return new ActionResponse({
+      content: true,
+      message: `¡Hola, ${user.name}! Es un placer verte de nuevo.`,
+    });
   }
   // findAll() {
   //   return `This action returns all auth`;

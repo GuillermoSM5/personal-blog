@@ -1,9 +1,10 @@
 import { Controller, Post, Body, UseFilters } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { CreateUserDto } from './dto/create-auth.dto';
-import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { HttpExceptionFilter } from 'src/Common/http-excepcion.filter';
 import { LoginUserDto } from './dto/login-user.dto';
+import { ActionResponse } from 'src/Model/responses';
 
 @ApiTags('Auth')
 @UseFilters(HttpExceptionFilter)
@@ -11,12 +12,14 @@ import { LoginUserDto } from './dto/login-user.dto';
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
   @ApiOperation({ summary: 'Register a new User' })
+  @ApiOkResponse({ type: ActionResponse })
   @Post('/register')
   createUser(@Body() createAuthDto: CreateUserDto) {
     return this.authService.create(createAuthDto);
   }
 
   @ApiOperation({ summary: 'User Login' })
+  @ApiOkResponse({ type: ActionResponse })
   @Post('/login')
   loginUser(@Body() loginUserDto: LoginUserDto) {
     return this.authService.loginUser(loginUserDto);
