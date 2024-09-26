@@ -2,7 +2,7 @@ import { Controller, Post, Body, UseFilters } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { CreateUserDto } from './dto/create-auth.dto';
 import { ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
-import { HttpExceptionFilter } from 'src/Common/http-excepcion.filter';
+import { HttpExceptionFilter } from 'src/Modules/Common/http-excepcion.filter';
 import { LoginUserDto } from './dto/login-user.dto';
 import { ActionResponse } from 'src/Model/responses';
 

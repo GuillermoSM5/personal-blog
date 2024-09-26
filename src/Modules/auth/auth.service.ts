@@ -32,17 +32,12 @@ export class AuthService {
     const { email, phrase } = loginUserDto;
     const user = await this.userModel.findOne({ email: email });
 
-    if (!user) {
+    if (!user || !bcrypt.compareSync(phrase, user?.phrase)) {
       throw new Error(
         '¡Ups! No pudimos encontrarte con esas credenciales. ¿Te equivocaste al escribirlas?',
       );
     }
 
-    if (!bcrypt.compareSync(phrase, user?.phrase || '')) {
-      throw new Error(
-        '¡Ups! No pudimos encontrarte con esas credenciales. ¿Te equivocaste al escribirlas?',
-      );
-    }
     return new ActionResponse({
       content: true,
       message: `¡Hola, ${user.name}! Es un placer verte de nuevo.`,
