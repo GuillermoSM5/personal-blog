@@ -5,7 +5,7 @@ import { errorManagment } from 'src/Model/Errors';
 @Catch(Error)
 export class HttpExceptionFilter implements ExceptionFilter {
   catch(Error: any, host: ArgumentsHost) {
-    const logger = new Logger('Exception interceptor');
+    const logger = new Logger('Exception interceptor t');
     logger.error(Error.message);
     let code = 500;
     let message =
