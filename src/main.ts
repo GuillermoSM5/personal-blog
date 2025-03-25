@@ -1,11 +1,12 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import { ValidationPipe } from '@nestjs/common';
+import { Logger, ValidationPipe } from '@nestjs/common';
 import { HttpExceptionFilter } from './Modules/Common/http-excepcion.filter';
-import { Console } from 'console';
+
 
 async function bootstrap() {
+  const logger = new Logger('Boostrap');
   const app = await NestFactory.create(AppModule);
 
   app.setGlobalPrefix('api/v1');
@@ -26,7 +27,8 @@ async function bootstrap() {
 
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
-  console.log(`Servidor corriendo en el puerto ${process.env.PORT || 3001}`);
+  logger.log('Swagger corriendo en /api');
+  logger.log(`Servidor corriendo en el puerto ${process.env.PORT || 3001}`);
   await app.listen(process.env.PORT || 3001);
 }
 bootstrap();
