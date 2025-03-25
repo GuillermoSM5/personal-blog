@@ -1,11 +1,12 @@
-import { ExceptionFilter, Catch, ArgumentsHost } from '@nestjs/common';
+import { ExceptionFilter, Catch, ArgumentsHost, Logger } from '@nestjs/common';
 import { Request, Response } from 'express';
 import { errorManagment } from 'src/Model/Errors';
 
 @Catch(Error)
 export class HttpExceptionFilter implements ExceptionFilter {
   catch(Error: any, host: ArgumentsHost) {
-    console.log(Error.message);
+    const logger = new Logger('Exception interceptor');
+    logger.error(Error.message);
     let code = 500;
     let message =
       'Oops, algo salió mal. Por favor, inténtalo de nuevo más tarde.';
