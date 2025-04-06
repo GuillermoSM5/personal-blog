@@ -6,7 +6,7 @@ import * as bcrypt from 'bcrypt';
 import { CreateUserDto } from './dto/create-auth.dto';
 import { User } from './entities/user.entity';
 import { LoginUserDto } from './dto/login-user.dto';
-import { ActionResponse } from 'src/Model/responses';
+import { ActionResponse, DataResponse } from 'src/Model/responses';
 
 @Injectable()
 export class AuthService {
@@ -42,9 +42,15 @@ export class AuthService {
       message: `¡Hola, ${user.name}! Es un placer verte de nuevo.`,
     });
   }
-  // findAll() {
-  //   return `This action returns all auth`;
-  // }
+
+
+  async findAll() {
+    const users = await this.userModel.find().select('-phrase -__v') as User[];
+    return new DataResponse<User[]>({
+      content: users,
+      message: 'Users list',
+    });
+  }
 
   // findOne(id: number) {
   //   return `This action returns a #${id} auth`;
