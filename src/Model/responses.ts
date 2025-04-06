@@ -15,3 +15,14 @@ export class ActionResponse implements BaseResponse<boolean> {
   @ApiProperty()
   content: boolean;
 }
+
+export class DataResponse<T> {
+  constructor({ message, content }: DataResponse<T>) {
+    this.message = message;
+    this.content = content;
+  }
+  @ApiProperty()
+  message: string;
+  @ApiProperty()      
+  content: T;
+}

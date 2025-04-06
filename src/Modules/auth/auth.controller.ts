@@ -1,10 +1,11 @@
-import { Controller, Post, Body, UseFilters } from '@nestjs/common';
+import { Controller, Post, Body, UseFilters, Get } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { CreateUserDto } from './dto/create-auth.dto';
 import { ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { HttpExceptionFilter } from 'src/Modules/Common/http-excepcion.filter';
 import { LoginUserDto } from './dto/login-user.dto';
-import { ActionResponse } from 'src/Model/responses';
+import { ActionResponse, DataResponse } from 'src/Model/responses';
+import { User } from './entities/user.entity';
 
 @ApiTags('Auth')
 @UseFilters(HttpExceptionFilter)
@@ -24,11 +25,13 @@ export class AuthController {
   loginUser(@Body() loginUserDto: LoginUserDto) {
     return this.authService.loginUser(loginUserDto);
   }
-
-  // @Get()
-  // findAll() {
-  //   return this.authService.findAll();
-  // }
+  
+  @ApiOperation({ summary: 'Get all Users' })
+  @ApiOkResponse({ type: DataResponse })
+  @Get('/allUsers')
+  findAll() : Promise<DataResponse<User[]>> {
+    return this.authService.findAll();
+  }
 
   // @Get(':id')
   // findOne(@Param('id') id: string) {
